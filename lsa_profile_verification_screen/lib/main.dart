@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/lsa_verification_screen.dart';
+import 'screens/dashboard_screen.dart';
 
 void main() {
   runApp(const LsaProfileVerificationApp());
@@ -13,7 +13,7 @@ class LsaProfileVerificationApp extends StatelessWidget {
     const primaryBlue = Color(0xFF2563EB);
 
     return MaterialApp(
-      title: 'LSA Profile Verification',
+      title: 'Aura Studio - LSA Profile Verification',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
@@ -30,7 +30,7 @@ class LsaProfileVerificationApp extends StatelessWidget {
           scrolledUnderElevation: 0,
         ),
       ),
-      home: const LsaVerificationScreen(),
+      home: const DashboardScreen(),
     );
   }
 }

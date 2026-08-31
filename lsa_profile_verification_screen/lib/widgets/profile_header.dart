@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Reusable profile header widget with circular security icon, title, and subtitle.
+/// Clean profile header for verification section adhering to modern SaaS design standards.
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({super.key});
 
@@ -8,22 +8,53 @@ class ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     const primaryColor = Color(0xFF2563EB);
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return Row(
       children: [
-              // Title
-        const Text(
-          'LSA Profile Verification',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF0F172A),
-            letterSpacing: -0.5,
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: const Color(0xFFEFF6FF),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: const Color(0xFFDBEAFE),
+              width: 1,
+            ),
+          ),
+          child: const Center(
+            child: Icon(
+              Icons.shield_outlined,
+              size: 20,
+              color: primaryColor,
+            ),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(width: 14),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Text(
+                'LSA Profile Verification',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF0F172A),
+                  letterSpacing: -0.3,
+                ),
+              ),
+              SizedBox(height: 2),
+              Text(
+                'Secure profile verification and validation',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Color(0xFF64748B),
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

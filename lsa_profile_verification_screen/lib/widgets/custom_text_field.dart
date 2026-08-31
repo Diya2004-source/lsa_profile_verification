@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-/// Reusable text field widget conforming to Material 3 design guidelines.
+/// Production-ready custom text field widget with a clean, human-designed SaaS aesthetic.
 class CustomTextField extends StatelessWidget {
   final String label;
   final String hintText;
   final TextEditingController? controller;
   final TextInputType keyboardType;
+  final ValueChanged<String>? onChanged;
 
   const CustomTextField({
     super.key,
@@ -13,6 +14,7 @@ class CustomTextField extends StatelessWidget {
     required this.hintText,
     this.controller,
     this.keyboardType = TextInputType.text,
+    this.onChanged,
   });
 
   @override
@@ -21,21 +23,25 @@ class CustomTextField extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           label,
           style: const TextStyle(
-            fontSize: 14,
+            fontSize: 13,
             fontWeight: FontWeight.w600,
             color: Color(0xFF334155),
+            letterSpacing: 0.1,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 6),
         TextField(
           controller: controller,
           keyboardType: keyboardType,
+          onChanged: onChanged,
           style: const TextStyle(
-            fontSize: 15,
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
             color: Color(0xFF0F172A),
           ),
           decoration: InputDecoration(
@@ -45,20 +51,20 @@ class CustomTextField extends StatelessWidget {
               color: Color(0xFF94A3B8),
             ),
             filled: true,
-            fillColor: const Color(0xFFF8FAFC),
+            fillColor: Colors.white,
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16,
+              horizontal: 14,
+              vertical: 12,
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(
                 color: Color(0xFFE2E8F0),
                 width: 1,
               ),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(
                 color: primaryColor,
                 width: 1.5,
