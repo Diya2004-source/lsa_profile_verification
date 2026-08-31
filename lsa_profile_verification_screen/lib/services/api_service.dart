@@ -1,0 +1,1 @@
+// This page consists reposibilities to make API calls and handle reponse from API and return data to UI page
