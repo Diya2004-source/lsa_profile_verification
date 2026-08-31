@@ -8,7 +8,7 @@ import '../trackers/friction_tracker.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/primary_button.dart';
 
-/// Screen for Profile Verification UI with center-aligned heading and +91 phone placeholder.
+/// Screen for Profile Verification UI vertically and horizontally centered.
 class LsaVerificationScreen extends StatefulWidget {
   const LsaVerificationScreen({super.key});
 
@@ -24,8 +24,6 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
 
   late final FrictionTracker _frictionTracker;
 
-  String? _currentTraceId;
-  String? _currentLogicHash;
   bool _isSubmitting = false;
 
   @override
@@ -99,8 +97,6 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
     );
 
     setState(() {
-      _currentTraceId = traceId;
-      _currentLogicHash = logicHash;
       _isSubmitting = true;
     });
 
@@ -157,17 +153,16 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isDesktop = screenWidth >= 900;
-
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(isDesktop ? 24.0 : 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Center-aligned Screen Heading Text
-          const Center(
-            child: Text(
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Center-aligned Screen Heading Text
+            const Text(
               'Profile Verification Screen',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -177,50 +172,29 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
                 letterSpacing: -0.4,
               ),
             ),
-          ),
-          const SizedBox(height: 16),
+            const SizedBox(height: 20),
 
-          if (isDesktop)
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Form Container
-                Expanded(
-                  flex: 3,
-                  child: _buildFormCard(),
-                ),
-                const SizedBox(width: 20),
-
-                // Side Details (Audit Trail)
-                if (_currentTraceId != null)
-                  Expanded(
-                    flex: 2,
-                    child: _buildAuditMetadataCard(),
-                  ),
-              ],
-            )
-          else
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildFormCard(),
-                if (_currentTraceId != null) ...[
-                  const SizedBox(height: 16),
-                  _buildAuditMetadataCard(),
-                ],
-              ],
-            ),
-        ],
+            // Main Form Card (Vertically and Horizontally Centered)
+            _buildFormCard(),
+          ],
+        ),
       ),
     );
   }
 
-  /// Verification Form Card container.
+  /// Verification Form Card container with clear contrast and rounded corners.
   Widget _buildFormCard() {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x0A0F172A),
+            blurRadius: 16,
+            offset: Offset(0, 4),
+          ),
+        ],
         border: Border.all(
           color: const Color(0xFFE2E8F0),
           width: 1,
@@ -229,6 +203,7 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
       padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
           // Name Field
           CustomTextField(
@@ -238,7 +213,7 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
             keyboardType: TextInputType.name,
             onChanged: (_) => _frictionTracker.resetTracking(),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
 
           // Email Field
           CustomTextField(
@@ -248,9 +223,9 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
             keyboardType: TextInputType.emailAddress,
             onChanged: (_) => _frictionTracker.resetTracking(),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
 
-          // Phone Number Field with +91 placeholder
+          // Phone Number Field
           CustomTextField(
             label: 'Phone Number',
             hintText: '+91 9876543210',
@@ -258,7 +233,7 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
             keyboardType: TextInputType.phone,
             onChanged: (_) => _frictionTracker.resetTracking(),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
 
           // Predecessor ID Field
           CustomTextField(
@@ -268,92 +243,15 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
             keyboardType: TextInputType.text,
             onChanged: (_) => _frictionTracker.resetTracking(),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 22),
 
-          // Button Section: Verify Profile Button
+          // Button Section: Premium Verify Profile Button
           PrimaryButton(
             text: _isSubmitting ? 'Verifying...' : 'Verify Profile',
             onPressed: _isSubmitting ? null : _handleVerification,
           ),
         ],
       ),
-    );
-  }
-
-  /// Audit Metadata Trail card showing current trace_id and logic_hash.
-  Widget _buildAuditMetadataCard() {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: const Color(0xFFE2E8F0),
-          width: 1,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: const [
-              Icon(
-                Icons.fingerprint_rounded,
-                size: 16,
-                color: Color(0xFF2563EB),
-              ),
-              SizedBox(width: 8),
-              Text(
-                'Security Audit Trail',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF0F172A),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          _buildMetadataField('TRACE ID', _currentTraceId!),
-          const SizedBox(height: 8),
-          _buildMetadataField('LOGIC HASH (SHA-256)', _currentLogicHash!),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMetadataField(String label, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF64748B),
-            letterSpacing: 0.5,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF8FAFC),
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(color: const Color(0xFFE2E8F0)),
-          ),
-          child: Text(
-            value,
-            style: const TextStyle(
-              fontSize: 11,
-              fontFamily: 'monospace',
-              color: Color(0xFF0F172A),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

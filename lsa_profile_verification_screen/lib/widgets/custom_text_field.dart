@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Production-ready custom text field widget with a clean, human-designed SaaS aesthetic.
+/// Production-ready custom text field widget with ultra-clear visual hierarchy.
 class CustomTextField extends StatelessWidget {
   final String label;
   final String hintText;
@@ -30,7 +30,7 @@ class CustomTextField extends StatelessWidget {
           style: const TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: Color(0xFF334155),
+            color: Color(0xFF1E293B),
             letterSpacing: 0.1,
           ),
         ),
@@ -41,7 +41,7 @@ class CustomTextField extends StatelessWidget {
           onChanged: onChanged,
           style: const TextStyle(
             fontSize: 14,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             color: Color(0xFF0F172A),
           ),
           decoration: InputDecoration(
@@ -51,20 +51,20 @@ class CustomTextField extends StatelessWidget {
               color: Color(0xFF94A3B8),
             ),
             filled: true,
-            fillColor: Colors.white,
+            fillColor: const Color(0xFFFAFAFA),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 14,
               vertical: 12,
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(10),
               borderSide: const BorderSide(
                 color: Color(0xFFE2E8F0),
                 width: 1,
               ),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(10),
               borderSide: const BorderSide(
                 color: primaryColor,
                 width: 1.5,
