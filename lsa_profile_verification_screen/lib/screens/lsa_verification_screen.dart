@@ -1,9 +1,10 @@
+// Screen for LSA Profile Verification UI with fail-closed validation logic.
 import 'package:flutter/material.dart';
+import '../security/security_validator.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/profile_header.dart';
 
-/// Screen for LSA Profile Verification UI.
 class LsaVerificationScreen extends StatefulWidget {
   const LsaVerificationScreen({super.key});
 
@@ -33,6 +34,44 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
     _phoneController.dispose();
     _predecessorIdController.dispose();
     super.dispose();
+  }
+
+  /// Handles profile verification submission using fail-closed validation.
+  void _handleVerification() {
+    final name = _nameController.text;
+    final email = _emailController.text;
+    final phone = _phoneController.text;
+    final predecessorId = _predecessorIdController.text;
+
+    final errorMessage = SecurityValidator.validateSubmission(
+      name: name,
+      email: email,
+      phone: phone,
+      predecessorId: predecessorId,
+    );
+
+    ScaffoldMessenger.of(context).clearSnackBars();
+
+    if (errorMessage != null) {
+      // Show red SnackBar if validation fails and stop execution immediately
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: const Color(0xFFDC2626),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    // Show green SnackBar when validation succeeds
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Validation Passed'),
+        backgroundColor: Color(0xFF16A34A),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 
   @override
@@ -109,7 +148,7 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
                     // Button Section: Verify Profile Button
                     PrimaryButton(
                       text: 'Verify Profile',
-                      onPressed: () {},
+                      onPressed: _handleVerification,
                     ),
                   ],
                 ),
@@ -137,36 +176,6 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
           color: const Color(0xFFE2E8F0),
           width: 1,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: const [
-              Icon(
-                Icons.lock_outline_rounded,
-                size: 18,
-                color: Color(0xFF2563EB),
-              ),
-              SizedBox(width: 8),
-              Text(
-                'Security Features',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF1E293B),
-                  letterSpacing: 0.1,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          _buildSecurityFeatureItem('Lineage Validation'),
-          const SizedBox(height: 8),
-          _buildSecurityFeatureItem('Fail-Closed Security'),
-          const SizedBox(height: 8),
-          _buildSecurityFeatureItem('Metadata Tracking'),
-        ],
       ),
     );
   }

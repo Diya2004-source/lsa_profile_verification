@@ -12,28 +12,7 @@ class ProfileHeader extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // Circular shield / security icon container
-        Container(
-          width: 72,
-          height: 72,
-          decoration: BoxDecoration(
-            color: const Color(0x1A2563EB), // 10% opacity blue
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: const Color(0x332563EB), // 20% opacity blue border
-              width: 2,
-            ),
-          ),
-          child: const Center(
-            child: Icon(
-              Icons.shield_rounded,
-              size: 36,
-              color: primaryColor,
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        // Title
+              // Title
         const Text(
           'LSA Profile Verification',
           textAlign: TextAlign.center,
@@ -45,16 +24,6 @@ class ProfileHeader extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        // Subtitle
-        const Text(
-          'Secure profile verification and validation',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 14,
-            color: Color(0xFF64748B),
-            height: 1.4,
-          ),
-        ),
       ],
     );
   }
