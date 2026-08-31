@@ -5,7 +5,7 @@ import '../widgets/sidebar.dart';
 import '../widgets/stat_card.dart';
 import 'lsa_verification_screen.dart';
 
-/// Main production dashboard screen integrating desktop sidebar, header, metrics, and LSA verification screen.
+// Main production dashboard screen integrating desktop sidebar, header, metrics, and profile verification screen.
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
@@ -14,12 +14,12 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  int _selectedNavIndex = 1; // Default to Profile Verification view for easy workflow evaluation
+  int _selectedNavIndex = 1; // Default to Profile Verification view for evaluation
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final List<String> _pageTitles = [
     'Dashboard',
-    'LSA Profile Verification',
+    '', // Title removed as requested
     'Projects',
     'Settings',
   ];
@@ -158,7 +158,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
                     Text(
-                      'LSA Profile Verification Tool',
+                      'Profile Verification Tool',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,

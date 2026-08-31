@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Top header bar for dashboard screens featuring title and functional controls.
+/// Top header bar without leading menu icon.
 class AppHeader extends StatelessWidget {
   final String title;
   final VoidCallback? onMenuPressed;
@@ -29,27 +29,20 @@ class AppHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          if (!isDesktop) ...[
-            IconButton(
-              icon: const Icon(Icons.menu_rounded, size: 20, color: Color(0xFF334155)),
-              onPressed: onMenuPressed,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
+          // Leading menu icon removed as requested
+          if (title.isNotEmpty)
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF0F172A),
+                letterSpacing: -0.3,
+              ),
             ),
-            const SizedBox(width: 16),
-          ],
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF0F172A),
-              letterSpacing: -0.3,
-            ),
-          ),
           const Spacer(),
 
-          // Search Field
+          // Search Field (Desktop)
           if (isDesktop)
             SizedBox(
               width: 220,

@@ -13,7 +13,7 @@ class LsaProfileVerificationApp extends StatelessWidget {
     const primaryBlue = Color(0xFF2563EB);
 
     return MaterialApp(
-      title: 'Aura Studio - LSA Profile Verification',
+      title: 'LSA Profile Verification',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,

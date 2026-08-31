@@ -7,9 +7,8 @@ import '../services/api_service.dart';
 import '../trackers/friction_tracker.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/primary_button.dart';
-import '../widgets/profile_header.dart';
 
-/// Screen for LSA Profile Verification UI with a human-designed, production-ready SaaS aesthetic.
+/// Screen for Profile Verification UI with center-aligned heading and +91 phone placeholder.
 class LsaVerificationScreen extends StatefulWidget {
   const LsaVerificationScreen({super.key});
 
@@ -164,45 +163,51 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
     return SingleChildScrollView(
       padding: EdgeInsets.all(isDesktop ? 24.0 : 16.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Section Header
-          const ProfileHeader(),
-          const SizedBox(height: 20),
+          // Center-aligned Screen Heading Text
+          const Center(
+            child: Text(
+              'Profile Verification Screen',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF0F172A),
+                letterSpacing: -0.4,
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
 
-          // Structured Layout: 2 Columns on Desktop, 1 Column on Mobile
           if (isDesktop)
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Form Container (60% width)
+                // Form Container
                 Expanded(
                   flex: 3,
                   child: _buildFormCard(),
                 ),
                 const SizedBox(width: 20),
 
-                // Side Details (40% width)
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      _buildSecurityInfoCard(),
-                      const SizedBox(height: 16),
-                      _buildAuditMetadataCard(),
-                    ],
+                // Side Details (Audit Trail)
+                if (_currentTraceId != null)
+                  Expanded(
+                    flex: 2,
+                    child: _buildAuditMetadataCard(),
                   ),
-                ),
               ],
             )
           else
             Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _buildFormCard(),
-                const SizedBox(height: 16),
-                _buildSecurityInfoCard(),
-                const SizedBox(height: 16),
-                _buildAuditMetadataCard(),
+                if (_currentTraceId != null) ...[
+                  const SizedBox(height: 16),
+                  _buildAuditMetadataCard(),
+                ],
               ],
             ),
         ],
@@ -225,24 +230,6 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Verification Details',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF0F172A),
-            ),
-          ),
-          const SizedBox(height: 4),
-          const Text(
-            'Enter the entity details below for lineage validation.',
-            style: TextStyle(
-              fontSize: 13,
-              color: Color(0xFF64748B),
-            ),
-          ),
-          const SizedBox(height: 20),
-
           // Name Field
           CustomTextField(
             label: 'Name',
@@ -263,10 +250,10 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
           ),
           const SizedBox(height: 16),
 
-          // Phone Number Field
+          // Phone Number Field with +91 placeholder
           CustomTextField(
             label: 'Phone Number',
-            hintText: '+1 (555) 000-0000',
+            hintText: '+91 9876543210',
             controller: _phoneController,
             keyboardType: TextInputType.phone,
             onChanged: (_) => _frictionTracker.resetTracking(),
@@ -290,90 +277,6 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  /// Clean Security Features Info Card.
-  Widget _buildSecurityInfoCard() {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: const Color(0xFFE2E8F0),
-          width: 1,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: const [
-              Icon(
-                Icons.security_rounded,
-                size: 16,
-                color: Color(0xFF2563EB),
-              ),
-              SizedBox(width: 8),
-              Text(
-                'Security Features',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF0F172A),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          _buildSecurityFeatureItem('Lineage Validation', 'Verifies record hierarchy.'),
-          const SizedBox(height: 8),
-          _buildSecurityFeatureItem('Fail-Closed Security', 'Immediate rejection on error.'),
-          const SizedBox(height: 8),
-          _buildSecurityFeatureItem('Metadata Tracking', 'Cryptographic trace generation.'),
-        ],
-      ),
-    );
-  }
-
-  /// Individual checkmark row for security features.
-  Widget _buildSecurityFeatureItem(String title, String description) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.only(top: 2),
-          child: Icon(
-            Icons.check_circle_rounded,
-            size: 14,
-            color: Color(0xFF2563EB),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF334155),
-                ),
-              ),
-              Text(
-                description,
-                style: const TextStyle(
-                  fontSize: 11,
-                  color: Color(0xFF64748B),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 
@@ -411,19 +314,9 @@ class _LsaVerificationScreenState extends State<LsaVerificationScreen> {
             ],
           ),
           const SizedBox(height: 12),
-          if (_currentTraceId == null)
-            const Text(
-              'No verification metadata generated yet. Submit valid data to inspect trace details.',
-              style: TextStyle(
-                fontSize: 12,
-                color: Color(0xFF94A3B8),
-              ),
-            )
-          else ...[
-            _buildMetadataField('TRACE ID', _currentTraceId!),
-            const SizedBox(height: 8),
-            _buildMetadataField('LOGIC HASH (SHA-256)', _currentLogicHash!),
-          ],
+          _buildMetadataField('TRACE ID', _currentTraceId!),
+          const SizedBox(height: 8),
+          _buildMetadataField('LOGIC HASH (SHA-256)', _currentLogicHash!),
         ],
       ),
     );
